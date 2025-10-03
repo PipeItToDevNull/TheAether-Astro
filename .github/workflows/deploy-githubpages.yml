@@ -19,7 +19,26 @@ permissions:
   id-token: write
 
 jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GHA_THEAETHER_ASTRO }}
+      - name: Update submodules to latest commit on default branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git submodule update --init --recursive
+          git submodule foreach 'git fetch origin && git checkout $(git remote show origin | grep "HEAD branch" | awk "{print $NF}") && git pull origin $(git rev-parse --abbrev-ref HEAD)'
+          git add .
+          git commit -m "Update submodules to latest commit on default branch" || echo "No changes to commit"
+          git push origin HEAD:main
+
   build:
+    needs: update-submodules
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
