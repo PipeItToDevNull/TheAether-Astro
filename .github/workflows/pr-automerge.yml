@@ -24,8 +24,18 @@ jobs:
     if: github.actor == 'dependabot[bot]'
     needs: test-build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - name: Automerge Dependabot PR
-        uses: pascalgn/automerge-action@v0.16.3
+      - name: Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v2
         with:
-          merge_method: squash
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Merge PR
+        if: steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
