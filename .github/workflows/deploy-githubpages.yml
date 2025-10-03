@@ -8,7 +8,7 @@ on:
   # Using a different branch name? Replace `main` with your branch’s name
   push:
     branches:
-      - master
+      - main
   # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
 
@@ -27,6 +27,9 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.SWA_TheAether_Astro }}
+      - name: Configure Azure DevOps PAT for submodules
+        run: |
+          git config --global url."https://${{ secrets.AZURE_PAT }}@dev.azure.com/".insteadOf "https://dev.azure.com/"
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         # with:
