@@ -22,14 +22,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout your repository using git
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.SWA_TheAether_Astro }}
-      - name: Configure Azure DevOps PAT for submodules
-        run: |
-          git config --global url."https://${{ secrets.AZURE_PAT }}@dev.azure.com/".insteadOf "https://dev.azure.com/"
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         # with:
