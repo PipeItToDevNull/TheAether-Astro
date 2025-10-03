@@ -24,12 +24,12 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
-        - name: Clone submodules with token
+        - name: Clone Azure DevOps submodules with token
           env:
-            TOKEN: ${{ secrets.SWA-TheAether-Astro }}
+            AZURE_TOKEN: ${{ secrets.SWA_TheAether_Astro }}
           run: |
+            git config --global url."https://${AZURE_TOKEN}@dev.azure.com/".insteadOf "https://dev.azure.com/"
             git submodule update --init --recursive
-            git config --global url."https://${TOKEN}@github.com/".insteadOf "https://github.com/"
             git submodule update --remote --recursive
       - name: Install, build, and upload your site
         uses: withastro/action@v3
