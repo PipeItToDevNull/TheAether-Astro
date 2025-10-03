@@ -1,0 +1,35 @@
+---
+// This file dynamically generates blog post pages using the Starlight layout.
+
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getCollection, render } from 'astro:content';
+import 'rehype-callouts/theme/vitepress';
+
+// Generate static paths for all blog posts
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+// Gather properties and headings for later use
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+
+// Helper function to generate a fallback title
+const toReadableTitle = (id) => {
+  return id
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+// Determine the page title, use the helper function if the title frontmatter is not populated
+const id = post.id.split('/').pop();
+const title = post.data.title || toReadableTitle(id);
+---
+
+<StarlightPage frontmatter={{ title: title }} headings={headings}>
+  <Content />
+</StarlightPage>

@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+const blogPages = await getCollection('blog');
+const wikiPages = (await getCollection('wiki')).filter((page) => page.data.publish === true); // Apply publish filter only to wiki
+
+// Combine tags from both collections, deduplicate, and sort
+const tags = Array.from(
+  new Set(
+    [
+      ...blogPages, // Include all blog pages without filtering
+      ...wikiPages, // Include only published wiki pages
+    ]
+      .flatMap((page) => page.data.tags || []) // Flatten all tags into a single array
+  )
+).sort(); // Sort tags alphabetically
+---
+
+<CardGrid>
+  {tags.map((tag) => (
+    <LinkCard title={tag} href={`/tags/${tag}`}/>
+  ))}
+</CardGrid>

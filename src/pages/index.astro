@@ -1,0 +1,12 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getEntry, render } from 'astro:content';
+
+// Fetch and render the content of the "home" page
+const homePage = await getEntry('home', 'home');
+const { Content } = await render(homePage);
+---
+
+<StarlightPage frontmatter={{ title: 'Home' }}>
+  <Content />
+</StarlightPage>

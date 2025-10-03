@@ -1,0 +1,3 @@
+[submodule "src/data/aether"]
+	path = src/data/aether
+	url = https://Dev-Zero@dev.azure.com/Dev-Zero/Obsidian/_git/TheAether

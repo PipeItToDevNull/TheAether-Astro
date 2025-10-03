@@ -1,0 +1,69 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { LinkCard } from '@astrojs/starlight/components';
+import { getCollection } from 'astro:content';
+
+// Generate static paths for all tags
+export async function getStaticPaths() {
+  // Fetch all pages from the "blog" and "wiki" collections
+  const blogPages = await getCollection('blog');
+  const wikiPages = (await getCollection('wiki')).filter((page) => page.data.publish === true); // Apply publish filter only to wiki
+
+  // Combine tags from both collections, deduplicate, and generate paths
+  const tags = Array.from(
+    new Set(
+      [...blogPages, ...wikiPages]
+        .flatMap((page) => page.data.tags || []) // Flatten all tags into a single array
+    )
+  );
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: { tag },
+  }));
+}
+
+// Extract the tag from the route parameters
+const { tag } = Astro.props;
+
+// Fetch all pages from the "blog" and "wiki" collections
+const blogPages = await getCollection('blog');
+const wikiPages = (await getCollection('wiki')).filter((page) => page.data.publish === true); // Apply publish filter only to wiki
+
+// Filter pages that include the current tag
+const filteredPages = [...blogPages, ...wikiPages].filter(
+  (page) => (page.data.tags || []).includes(tag)
+);
+
+// Helper function to generate a fallback title
+const toReadableTitle = (id) => {
+  return id
+    .replace(/-/g, ' ') // Replace dashes with spaces
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+};
+
+// Extract the file name from the page ID
+const getFileName = (id) => {
+  return id.split('/').pop(); // Get the last part of the path
+};
+
+// Determine the page title
+const title = `Tag: ${toReadableTitle(tag)}`;
+---
+
+<StarlightPage frontmatter={{ title: title }}>
+  {filteredPages.length > 0 ? (
+    <div class="link-card-grid">
+      {filteredPages.map((page) => (
+        <LinkCard
+          href={`/${page.collection}/${page.id}`}
+          title={page.data.title || toReadableTitle(getFileName(page.id))}
+        >
+          {page.data.description || 'No description available.'}
+        </LinkCard>
+      ))}
+    </div>
+  ) : (
+    <p>No pages found with this tag.</p>
+  )}
+</StarlightPage>

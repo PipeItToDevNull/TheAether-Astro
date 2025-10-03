@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+// Fetch the "wiki" collection and filter for published pages
+let pages = (await getCollection('wiki')).filter((page) => page.data.publish === true);
+
+// Sort pages by creation date (newest first)
+pages = pages.sort((a, b) => {
+  const dateA = new Date(a.data.created || '1970-01-01'); // Default to earliest date if missing
+  const dateB = new Date(b.data.created || '1970-01-01');
+  return dateB - dateA; // Sort descending
+});
+
+// Helper function to convert id's to human-readable titles
+const toReadableTitle = (id) => {
+  return id
+    .replace(/-/g, ' ') // Replace dashes with spaces
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+};
+---
+
+<section>
+    {pages.map((page) => {
+      // Use the filename as the title if no title is provided
+      const id = page.id.split('/').pop(); // Extract the id from the path
+      const title = page.data.title || toReadableTitle(id);
+
+      return (
+        <Card title={title}>
+          <p>Tags: {page.data.tags ? page.data.tags.join(', ') : 'No Tags'}</p>
+          <p><a href={`/wiki/${page.id}`}>Read this page</a></p>
+        </Card>
+      );
+    })}
+</section>

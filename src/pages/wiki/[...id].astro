@@ -1,0 +1,53 @@
+---
+// This file dynamically generates wiki pages using the Starlight layout.
+
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getCollection, render } from 'astro:content';
+import 'rehype-callouts/theme/vitepress';
+
+// Generate static paths for all published wiki pages
+export async function getStaticPaths() {
+  // Fetch the "wiki" collection and filter for published pages
+  let pages = (await getCollection('wiki')).filter((page) => page.data.publish === true);
+
+  return pages.map((page) => ({
+    params: { id: page.id },
+    props: { page },
+  }));
+}
+
+// Gather properties and headings for later use
+const { page } = Astro.props;
+const { Content, headings } = await render(page);
+
+// Helper function to generate a fallback title
+const toReadableTitle = (id) => {
+  return id
+    .split('/') // Split by slashes to get the last part of the ID
+    .pop()
+    .replace(/-/g, ' ') // Replace dashes with spaces
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+};
+
+// Determine the page title, use the helper function if the title frontmatter is not populated
+const title = page.data.title || toReadableTitle(page.id);
+
+// Extract tags from the page frontmatter
+const tags = page.data.tags || []; // Default to an empty array if no tags are provided
+---
+
+<StarlightPage frontmatter={{ title: title }} headings={headings}>
+  <!-- tags -->
+  {tags.length > 0 && (
+    <p>
+      <strong>Tags:</strong> {tags.map((tag, index) => (
+        <span>
+          {tag}{index < tags.length - 1 && ', '}
+        </span>
+      ))}
+    </p>
+    <hr>
+  )}
+  <!-- Render the main content -->
+  <Content />
+</StarlightPage>
