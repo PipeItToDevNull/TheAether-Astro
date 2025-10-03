@@ -1,0 +1,14 @@
+{
+  "customizations": {
+    "codespaces": {
+      "repositories": {
+        "PipeItToDevNull/TheAether": {
+          "permissions": "read-all"
+        },
+        "PipeItToDevNull/TheAether-IT": {
+          "permissions": "read-all"
+        }
+      }
+    }
+  }
+}
