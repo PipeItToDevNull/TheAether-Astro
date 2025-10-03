@@ -1,0 +1,32 @@
+name: PR Build & Automerge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GHA_THEAETHER_ASTRO }}
+      - name: Install dependencies and build site
+        uses: withastro/action@v3
+        # with:
+          # path: .
+          # node-version: 20
+          # package-manager: pnpm@latest
+
+  automerge:
+    if: github.actor == 'dependabot[bot]'
+    needs: test-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Automerge Dependabot PR
+        uses: pascalgn/automerge-action@v0.16.3
+        with:
+          github_token: ${{ secrets.GHA_THEAETHER_ASTRO }}
+          merge_method: squash
