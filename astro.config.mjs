@@ -23,6 +23,9 @@ export default defineConfig({
                 './src/styles/main.css',
                 './src/styles/marks.css',
             ],
+            tableOfContents: {
+                maxHeadingLevel: 6
+            },
             social: [
                 { 
                     icon: 'github', label: 'GitHub', 
