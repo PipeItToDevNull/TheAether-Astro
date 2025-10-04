@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 // Fetch the "blog" collection
 let posts = await getCollection('blog');
@@ -28,18 +28,17 @@ const formatDate = (date) => {
 ---
 
 <section>
-    {posts.map((post) => {
-      // Use the filename as the title if no title is provided
-      const id = post.id.split('/').pop(); // Extract the id from the path
-      const title = post.data.title || toReadableTitle(id);
+  {posts.map((post) => {
+    const id = post.id.split('/').pop();
+    const title = post.data.title || toReadableTitle(id);
 
-      return (
-        <Card title={title}>
-          <p>Created: {formatDate(post.data.created)}</p>
-          <p>Last Updated: {formatDate(post.data.modified)}</p>
-          <p>Tags: {post.data.tags ? post.data.tags.join(', ') : 'No Tags'}</p>
-          <p><a href={`/blog/${post.id}`}>Read this post</a></p>
-        </Card>
-      );
-    })}
+    return (
+      <LinkCard 
+        title={title}
+        href={`/blog/${post.id}`}
+        description={`Created: ${formatDate(post.data.created)} | Last Updated: ${formatDate(post.data.modified)}`}
+        style={{ whiteSpace: 'pre-line' }} // Ensures newlines are rendered
+      />
+    );
+  })}
 </section>
