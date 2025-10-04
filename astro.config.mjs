@@ -10,6 +10,7 @@ export default defineConfig({
     integrations: [
         starlight({
             title: 'Dev0 Docs',
+            favicon: './src/assets/0dev.svg',
             logo: {
                 src: './src/assets/dev0.png',
                 replacesTitle: true,
