@@ -34,10 +34,12 @@ const title = page.data.title || toReadableTitle(page.id);
 
 // Extract tags from the page frontmatter
 const tags = page.data.tags || []; // Default to an empty array if no tags are provided
+
+// Extract sources from the page frontmatter
+const sources = page.data.source || [];
 ---
 
 <StarlightPage frontmatter={{ title: title }} headings={headings}>
-  <!-- tags -->
   {tags.length > 0 && (
     <p>
       <strong>Tags:</strong> {tags.map((tag, index) => (
@@ -48,6 +50,16 @@ const tags = page.data.tags || []; // Default to an empty array if no tags are p
     </p>
     <hr>
   )}
-  <!-- Render the main content -->
   <Content />
+  {sources.length > 0 && (
+    <hr>
+    <div style="margin-top:2rem;">
+      <strong>Sources:</strong>
+      <ul>
+        {sources.map((src) => (
+          <li>{src}</li>
+        ))}
+      </ul>
+    </div>
+  )}
 </StarlightPage>

@@ -14,6 +14,7 @@ const blog = defineCollection({
     title: z.string().optional(),
     created: z.date().optional(),
     modified: z.date().optional(),
+    source: z.array(z.string()).nullable().optional(),
     tags: z.array(z.string()).nullable().optional(),
   }),
 });
@@ -28,6 +29,7 @@ const wiki = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/data/aether/20 IT" }),
   schema: z.object({
     publish: z.boolean().optional(),
+    source: z.array(z.string()).nullable().optional(),
     tags: z.array(z.string()).nullable().optional(),
   }),
 });

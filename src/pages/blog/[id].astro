@@ -28,8 +28,35 @@ const toReadableTitle = (id) => {
 // Determine the page title, use the helper function if the title frontmatter is not populated
 const id = post.id.split('/').pop();
 const title = post.data.title || toReadableTitle(id);
+
+// Extract tags from the page frontmatter
+const tags = post.data.tags || []; // Default to an empty array if no tags are provided
+
+// Extract sources from the page frontmatter
+const sources = post.data.source || [];
 ---
 
 <StarlightPage frontmatter={{ title: title }} headings={headings}>
+  {tags.length > 0 && (
+    <p>
+      <strong>Tags:</strong> {tags.map((tag, index) => (
+        <span>
+          {tag}{index < tags.length - 1 && ', '}
+        </span>
+      ))}
+    </p>
+    <hr>
+  )}
   <Content />
+  {sources.length > 0 && (
+    <hr>
+    <div style="margin-top:2rem;">
+      <strong>Sources:</strong>
+      <ul>
+        {sources.map((src) => (
+          <li>{src}</li>
+        ))}
+      </ul>
+    </div>
+  )}
 </StarlightPage>
