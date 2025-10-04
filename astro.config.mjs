@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import rehypeCallouts from 'rehype-callouts';
 import { generateWikiSidebarItems } from './src/utils/wikiSidebar.js';
+import { rewriteWikiLinks } from './src/utils/rewriteWikiLinks.js';
 
 // https://astro.build/config
 export default defineConfig({
@@ -43,5 +44,6 @@ export default defineConfig({
     ],
     markdown: {
         rehypePlugins: [rehypeCallouts],
+        remarkPlugins: [rewriteWikiLinks],
     },
 });
