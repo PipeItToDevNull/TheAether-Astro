@@ -7,6 +7,6 @@ const homePage = await getEntry('home', 'homelab'); // Ensure the collection nam
 const { Content, headings } = await render(homePage); // Extract headings along with content
 ---
 
-<StarlightPage frontmatter={{ title: 'Homelab' }} headings={headings}>
+<StarlightPage frontmatter={{ title: 'Homelab', description: "Everything I currently run or have run for myself, and why I do it" }} headings={headings}>
   <Content />
 </StarlightPage>

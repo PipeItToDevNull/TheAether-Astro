@@ -15,6 +15,9 @@ export default defineConfig({
                 src: './src/assets/dev0.png',
                 replacesTitle: true,
             },
+            components: {
+                PageTitle: './src/components/customPageTitle.astro',
+            }, 
             customCss: [
                 './src/styles/main.css',
                 './src/styles/marks.css',
