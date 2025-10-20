@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.36.0",
-    "astro": "^5.14.4",
+    "astro": "^5.14.6",
     "gray-matter": "^4.0.3",
     "rehype-callouts": "^2.1.2",
     "sharp": "^0.34.2"
