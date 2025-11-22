@@ -19,6 +19,12 @@ const blog = defineCollection({
   }),
 });
 
+const maps = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/data/aether/30 Hobbies/31 Homelab/01 Maps" }),
+  schema: z.object({
+  }),
+});
+
 const home = defineCollection({
   loader: glob({ pattern: "*.md", base: "./src/data/aether/30 Hobbies/31 Homelab/05 Site" }),
   schema: z.object({
@@ -34,4 +40,4 @@ const wiki = defineCollection({
   }),
 });
 
-export const collections = { docs, blog, home, wiki };
+export const collections = { docs, blog, home, wiki, maps };
