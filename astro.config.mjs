@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import rehypeCallouts from 'rehype-callouts';
+import mermaid from 'astro-mermaid';
 import { generateWikiSidebarItems } from './src/utils/wikiSidebar.js';
 import { rewriteWikiLinks } from './src/utils/rewriteWikiLinks.js';
 
@@ -9,6 +10,10 @@ import { rewriteWikiLinks } from './src/utils/rewriteWikiLinks.js';
 export default defineConfig({
     site: 'https://docs.dev0.sh',
     integrations: [
+        mermaid({
+            theme: 'forest',
+            autoTheme: true
+        }),
         starlight({
             title: 'Dev0 Docs',
             logo: {
