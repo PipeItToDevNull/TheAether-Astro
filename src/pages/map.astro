@@ -1,0 +1,12 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getCollection, render } from 'astro:content';
+
+const maps = await getCollection('maps');
+const mapPage = maps.find((m) => m.id === '002-network-map') || maps[0];
+const { Content, headings } = await render(mapPage);
+---
+
+<StarlightPage frontmatter={{ title: 'Network Map', tableOfContents: false }} headings={headings}>
+  <Content />
+</StarlightPage>

@@ -3,8 +3,8 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import { getEntry, render } from 'astro:content';
 
 // Fetch and render the content of the "homelab" page
-const homePage = await getEntry('home', 'homelab'); // Ensure the collection name and slug are correct
-const { Content, headings } = await render(homePage); // Extract headings along with content
+const homelabPage = await getEntry('home', 'homelab'); // Ensure the collection name and slug are correct
+const { Content, headings } = await render(homelabPage); // Extract headings along with content
 ---
 
 <StarlightPage frontmatter={{ title: 'Homelab', description: "Everything I currently run or have run for myself, and why I do it" }} headings={headings}>
