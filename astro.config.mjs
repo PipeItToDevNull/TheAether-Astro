@@ -38,6 +38,7 @@ export default defineConfig({
             ],
             sidebar: [
                 { label: 'Homelab', link: '/homelab' },
+                { label: 'Homelab Map', link: '/map' },
                 { label: 'Blog', link: '/blog' },
                 { label: 'Tags', link: '/tags' },
                 {
