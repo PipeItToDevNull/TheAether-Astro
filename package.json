@@ -14,7 +14,7 @@
     "astro": "^5.16.4",
     "astro-mermaid": "^1.2.0",
     "gray-matter": "^4.0.3",
-    "mermaid": "^11.12.1",
+    "mermaid": "^11.12.2",
     "rehype-callouts": "^2.1.2",
     "sharp": "^0.34.5"
   }
